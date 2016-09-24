@@ -16,6 +16,11 @@ public interface BarcodeCallback {
     void barcodeResult(BarcodeResult result);
 
     /**
+     * Allow the current preview frame to be intercepted
+     */
+    void previewFrame(SourceData sourceData);
+
+    /**
      * ResultPoints are detected. This may be called whether or not the scanning was successful.
      *
      * This is mainly useful to give some feedback to the user while scanning.

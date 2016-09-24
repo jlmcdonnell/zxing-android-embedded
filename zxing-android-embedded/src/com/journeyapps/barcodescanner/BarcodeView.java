@@ -1,8 +1,6 @@
 package com.journeyapps.barcodescanner;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -10,6 +8,7 @@ import android.util.AttributeSet;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.R;
+import com.journeyapps.barcodescanner.camera.PreviewCallback;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,11 +36,28 @@ public class BarcodeView extends CameraPreview {
     private DecodeMode decodeMode = DecodeMode.NONE;
     private BarcodeCallback callback = null;
     private DecoderThread decoderThread;
-
     private DecoderFactory decoderFactory;
-
-
     private Handler resultHandler;
+
+    private DecoderThread.DecoderCallback decoderThreadCallback = new DecoderThread.DecoderCallback() {
+        @Override
+        public void onRequestNextPreview() {
+            if (isPreviewActive()) {
+                getCameraInstance().requestPreview(previewCallback);
+            }
+        }
+    };
+
+    private PreviewCallback previewCallback = new PreviewCallback() {
+        @Override
+        public void onPreview(SourceData sourceData) {
+            if (callback != null) {
+                callback.previewFrame(sourceData);
+            }
+
+            decoderThread.handlePreview(sourceData);
+        }
+    };
 
     private final Handler.Callback resultCallback = new Handler.Callback() {
         @Override
@@ -179,7 +195,7 @@ public class BarcodeView extends CameraPreview {
             // We only start the thread if both:
             // 1. decoding was requested
             // 2. the preview is active
-            decoderThread = new DecoderThread(getCameraInstance(), createDecoder(), resultHandler);
+            decoderThread = new DecoderThread(decoderThreadCallback, createDecoder(), resultHandler);
             decoderThread.setCropRect(getPreviewFramingRect());
             decoderThread.start();
         }
