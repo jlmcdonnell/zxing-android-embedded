@@ -55,7 +55,9 @@ public class BarcodeView extends CameraPreview {
                 callback.previewFrame(sourceData);
             }
 
-            decoderThread.handlePreview(sourceData);
+            if (decoderThread != null) {
+                decoderThread.handlePreview(sourceData);
+            }
         }
     };
 
