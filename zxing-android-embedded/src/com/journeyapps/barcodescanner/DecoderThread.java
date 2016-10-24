@@ -161,7 +161,7 @@ public class DecoderThread {
             }
         } else {
             if (resultHandler != null) {
-                Message message = Message.obtain(resultHandler, R.id.zxing_decode_failed);
+                Message message = Message.obtain(resultHandler, R.id.zxing_decode_failed, sourceData);
                 message.sendToTarget();
             }
         }

@@ -12,6 +12,7 @@ import com.google.zxing.client.android.BeepManager;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+import com.journeyapps.barcodescanner.SourceData;
 
 import java.util.List;
 
@@ -44,6 +45,11 @@ public class ContinuousCaptureActivity extends Activity {
 
         @Override
         public void possibleResultPoints(List<ResultPoint> resultPoints) {
+        }
+
+        @Override
+        public void barcodeResultFailed(SourceData sourceData) {
+
         }
     };
 

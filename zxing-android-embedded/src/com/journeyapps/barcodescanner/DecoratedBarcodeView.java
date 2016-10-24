@@ -56,6 +56,11 @@ public class DecoratedBarcodeView extends FrameLayout {
             }
             delegate.possibleResultPoints(resultPoints);
         }
+
+        @Override
+        public void barcodeResultFailed(SourceData sourceData) {
+            delegate.barcodeResultFailed(sourceData);
+        }
     }
 
     public DecoratedBarcodeView(Context context) {

@@ -58,6 +58,9 @@ public class BarcodeView extends CameraPreview {
                 return true;
             } else if (message.what == R.id.zxing_decode_failed) {
                 // Failed. Next preview is automatically tried.
+                if (callback != null && decodeMode != DecodeMode.NONE) {
+                    callback.barcodeResultFailed((SourceData) message.obj);
+                }
                 return true;
             } else if (message.what == R.id.zxing_possible_result_points) {
                 List<ResultPoint> resultPoints = (List<ResultPoint>) message.obj;

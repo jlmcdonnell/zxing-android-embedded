@@ -16,6 +16,11 @@ public interface BarcodeCallback {
     void barcodeResult(BarcodeResult result);
 
     /**
+     * @param sourceData source data of frame which did not contain a barcode
+     */
+    void barcodeResultFailed(SourceData sourceData);
+
+    /**
      * ResultPoints are detected. This may be called whether or not the scanning was successful.
      *
      * This is mainly useful to give some feedback to the user while scanning.
